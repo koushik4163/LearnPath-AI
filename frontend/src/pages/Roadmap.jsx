@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
 import RoadmapTimeline from '../components/RoadmapTimeline';
 import api from '../api/axios';
 
@@ -40,7 +39,7 @@ export default function Roadmap() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-[#F08A4B] border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -50,28 +49,27 @@ export default function Roadmap() {
   const isLastWeek = currentWeek >= totalWeeks;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <div className="max-w-3xl mx-auto px-6 py-8">
+    <div className="w-full">
+      <div className="max-w-none mx-0 px-2 md:px-3 py-8">
 
         {/* Goal Banner */}
-        <div className="bg-indigo-600 text-white rounded-2xl p-6 mb-6">
-          <p className="text-indigo-200 text-sm mb-1">Your Goal</p>
-          <h2 className="text-xl font-bold">{roadmap?.goal}</h2>
-          <div className="flex flex-wrap gap-4 mt-4 text-sm text-indigo-200">
+        <div className="panel p-6 mb-6">
+          <p className="text-[#8A857C] text-sm mb-1">Your Goal</p>
+          <h2 className="text-xl font-bold text-[#F2EDE6]">{roadmap?.goal}</h2>
+          <div className="flex flex-wrap gap-4 mt-4 text-sm text-[#B9B1A7]">
             <span>⏱ {totalWeeks} weeks total</span>
             <span>📍 Currently on Week {currentWeek}</span>
             <span>🧠 {roadmap?.current_skills?.join(', ')}</span>
           </div>
           {/* Week progress bar */}
           <div className="mt-4">
-            <div className="flex justify-between text-xs text-indigo-200 mb-1">
+            <div className="flex justify-between text-xs text-[#8A857C] mb-1">
               <span>Week {currentWeek} of {totalWeeks}</span>
               <span>{Math.round((currentWeek / totalWeeks) * 100)}% complete</span>
             </div>
-            <div className="w-full bg-indigo-500 rounded-full h-2">
+            <div className="w-full bg-white/10 rounded-full h-2">
               <div
-                className="bg-white h-2 rounded-full transition-all"
+                className="bg-[#F08A4B] h-2 rounded-full transition-all"
                 style={{ width: `${(currentWeek / totalWeeks) * 100}%` }}
               />
             </div>
@@ -80,38 +78,38 @@ export default function Roadmap() {
 
         {/* Unlock Next Week */}
         {!isLastWeek && (
-          <div className="bg-white rounded-xl border p-5 mb-6 shadow-sm">
+          <div className="panel p-5 mb-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-gray-800">
+                <p className="font-semibold text-[#F2EDE6]">
                   Ready for Week {currentWeek + 1}?
                 </p>
-                <p className="text-sm text-gray-400 mt-0.5">
+                <p className="text-sm text-[#8A857C] mt-0.5">
                   Complete all Week {currentWeek} tasks to unlock
                 </p>
               </div>
               <button
                 onClick={handleUnlockNextWeek}
                 disabled={unlocking}
-                className="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm
-                  font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
+                className="bg-[#F08A4B] text-white px-5 py-2 rounded-lg text-sm
+                  font-semibold hover:bg-[#DE7C40] transition disabled:opacity-60"
               >
                 {unlocking ? 'Unlocking...' : `Unlock Week ${currentWeek + 1} 🔓`}
               </button>
             </div>
             {unlockMsg && (
-              <p className="text-green-600 text-sm mt-3">✅ {unlockMsg}</p>
+              <p className="text-emerald-300 text-sm mt-3">✅ {unlockMsg}</p>
             )}
             {unlockError && (
-              <p className="text-red-500 text-sm mt-3">⚠️ {unlockError}</p>
+              <p className="text-rose-300 text-sm mt-3">⚠️ {unlockError}</p>
             )}
           </div>
         )}
 
         {isLastWeek && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-5 mb-6 text-center">
+          <div className="panel-soft p-5 mb-6 text-center">
             <p className="text-2xl mb-1">🎓</p>
-            <p className="font-semibold text-green-800">
+            <p className="font-semibold text-emerald-300">
               You've unlocked all {totalWeeks} weeks!
             </p>
           </div>
@@ -121,13 +119,13 @@ export default function Roadmap() {
         {plan?.weeks ? (
           <RoadmapTimeline weeks={plan.weeks} currentWeek={currentWeek} />
         ) : (
-          <p className="text-gray-400 text-center py-12">No plan data found.</p>
+          <p className="text-[#8A857C] text-center py-12">No plan data found.</p>
         )}
 
         <div className="mt-8 text-center">
           <button
             onClick={() => navigate('/tasks')}
-            className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
+            className="bg-[#F08A4B] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#DE7C40] transition"
           >
             Start Today's Tasks 📋
           </button>
