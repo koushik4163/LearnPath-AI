@@ -1,0 +1,25 @@
+# Environment files
+.env
+frontend/.env
+backend/.env
+
+# Secrets
+backend/firebase-service-account.json
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Build output
+dist/
+build/
+
+# OS/editor
+.DS_Store
+.idea/
