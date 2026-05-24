@@ -1,2 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @config "../tailwind.config.js";
+
+:root {
+	--bg: #141414;
+	--bg-deep: #0f0f0f;
+	--surface: #1b1b1b;
+	--surface-2: #232323;
+	--border: #2c2c2c;
+	--accent: #f08a4b;
+	--accent-2: #7c8cff;
+	--text: #f2ede6;
+	--muted: #b9b1a7;
+	--muted-2: #8a857c;
+}
+
+body {
+	font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--text);
+	background-color: var(--bg);
+}
+
+.app-shell {
+	position: relative;
+	min-height: 100vh;
+	background:
+		radial-gradient(600px 300px at 10% 0%, rgba(240, 138, 75, 0.18), transparent 60%),
+		radial-gradient(700px 400px at 90% 10%, rgba(124, 140, 255, 0.16), transparent 60%),
+		linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+}
+
+.app-shell::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.panel {
+	background: rgba(27, 27, 27, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 1rem;
+}
+
+.panel-soft {
+	background: rgba(35, 35, 35, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 1rem;
+}
+
+.panel-outline {
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 1rem;
+}
+
+.text-muted {
+	color: var(--muted);
+}
+
+.text-muted-2 {
+	color: var(--muted-2);
+}

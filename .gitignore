@@ -9,6 +9,8 @@ backend/firebase-service-account.json
 # Python
 .venv/
 venv/
+**/.venv/
+**/venv/
 __pycache__/
 *.pyc
 .pytest_cache/
