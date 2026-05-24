@@ -53,30 +53,30 @@ export default function GoalSetup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 px-4 py-12">
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <div className="w-full">
+      <div className="max-w-2xl mx-auto panel shadow-lg p-8">
 
         {/* Header */}
         <div className="text-center mb-8">
           <p className="text-4xl mb-3">🎯</p>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-[#F2EDE6]">
             Set Your Learning Goal
           </h1>
-          <p className="text-gray-400 mt-2 text-sm">
+          <p className="text-[#8A857C] mt-2 text-sm">
             Tell us what you want to achieve and we'll build your perfect roadmap
           </p>
         </div>
 
         {/* Error */}
         {error && (
-          <div className="bg-red-50 text-red-600 text-sm rounded-lg px-4 py-3 mb-6 border border-red-200">
+          <div className="bg-rose-500/10 text-rose-200 text-sm rounded-lg px-4 py-3 mb-6 border border-rose-400/40">
             {error}
           </div>
         )}
 
         {/* Goal Input */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#B9B1A7] mb-2">
             What is your goal?
           </label>
           <textarea
@@ -84,16 +84,17 @@ export default function GoalSetup() {
             value={goal}
             onChange={e => setGoal(e.target.value)}
             placeholder="e.g. Get a data science job in 3 months, Learn React to build my startup..."
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full border border-white/10 rounded-xl px-4 py-3 text-sm
+              bg-[#111111] text-[#F2EDE6] placeholder:text-[#8A857C]
+              focus:outline-none focus:ring-2 focus:ring-[#7C8CFF] resize-none"
           />
         </div>
 
         {/* Skills */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-sm font-medium text-[#B9B1A7] mb-3">
             Your current skills{' '}
-            <span className="text-gray-400 font-normal">(select all that apply)</span>
+            <span className="text-[#8A857C] font-normal">(select all that apply)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {SKILL_OPTIONS.map(skill => (
@@ -102,8 +103,8 @@ export default function GoalSetup() {
                 onClick={() => toggleSkill(skill)}
                 className={`px-3 py-1.5 rounded-full text-sm border transition ${
                   selectedSkills.includes(skill)
-                    ? 'bg-indigo-600 text-white border-indigo-600'
-                    : 'bg-white text-gray-600 border-gray-300 hover:border-indigo-400'
+                    ? 'bg-[#F08A4B] text-white border-[#F08A4B]'
+                    : 'bg-white/5 text-[#B9B1A7] border-white/10 hover:border-[#7C8CFF]'
                 }`}
               >
                 {skill}
@@ -114,9 +115,9 @@ export default function GoalSetup() {
 
         {/* Duration */}
         <div className="mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#B9B1A7] mb-2">
             Duration:{' '}
-            <span className="text-indigo-600 font-semibold">{weeks} weeks</span>
+            <span className="text-[#F08A4B] font-semibold">{weeks} weeks</span>
           </label>
           <input
             type="range"
@@ -124,9 +125,9 @@ export default function GoalSetup() {
             max="12"
             value={weeks}
             onChange={e => setWeeks(Number(e.target.value))}
-            className="w-full accent-indigo-600"
+            className="w-full accent-[#F08A4B]"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <div className="flex justify-between text-xs text-[#8A857C] mt-1">
             <span>2 weeks</span>
             <span>12 weeks</span>
           </div>
@@ -136,14 +137,14 @@ export default function GoalSetup() {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white
+          className="w-full bg-[#F08A4B] hover:bg-[#DE7C40] text-white
             font-semibold py-4 rounded-xl transition disabled:opacity-60 text-base"
         >
           {loading ? '✨ Building your roadmap...' : 'Generate My Roadmap 🚀'}
         </button>
 
         {loading && (
-          <p className="text-center text-xs text-gray-400 mt-3">
+          <p className="text-center text-xs text-[#8A857C] mt-3">
             This may take 15–30 seconds. AI is thinking...
           </p>
         )}

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import Navbar from '../components/Navbar';
 
 export default function Certificate() {
   const { user } = useAuth();
@@ -140,18 +139,17 @@ export default function Certificate() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-[#F08A4B] border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
   if (!roadmap) return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="w-full">
       <div className="text-center py-20">
         <p className="text-5xl mb-4">🎓</p>
-        <p className="text-gray-600 mb-4">No roadmap found to generate certificate</p>
+        <p className="text-[#B9B1A7] mb-4">No roadmap found to generate certificate</p>
         <button onClick={() => navigate('/goal-setup')}
-          className="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700">
+          className="bg-[#F08A4B] text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-[#DE7C40]">
           Create a Roadmap First
         </button>
       </div>
@@ -159,35 +157,34 @@ export default function Certificate() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="w-full">
       <div className="max-w-4xl mx-auto px-6 py-10">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">🎓 Your Certificate</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-[#F2EDE6]">🎓 Your Certificate</h1>
+          <p className="text-[#8A857C] text-sm mt-1">
             Download and share your achievement
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border shadow-sm p-6 mb-6 overflow-x-auto">
+        <div className="panel shadow-sm p-6 mb-6 overflow-x-auto">
           <canvas
             ref={canvasRef}
             width={800}
             height={600}
-            className="mx-auto max-w-full border rounded-xl shadow"
+            className="mx-auto max-w-full border border-white/10 rounded-xl shadow"
           />
         </div>
 
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleDownload}
-            className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
+            className="bg-[#F08A4B] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#DE7C40] transition"
           >
             ⬇️ Download Certificate
           </button>
           <button
             onClick={() => navigate('/dashboard')}
-            className="border border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-50 transition"
+            className="border border-white/10 text-[#F2EDE6] px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition"
           >
             Back to Dashboard
           </button>
