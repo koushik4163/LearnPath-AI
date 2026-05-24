@@ -1,10 +1,10 @@
 export default function TaskCard({ task, onToggle }) {
   return (
     <div
-      className={`bg-white rounded-xl border p-5 shadow-sm transition ${
+      className={`panel p-5 shadow-sm transition ${
         task.is_completed
-          ? 'opacity-60 border-green-200'
-          : 'hover:border-indigo-300'
+          ? 'opacity-60 border-emerald-500/40'
+          : 'hover:border-white/20'
       }`}
     >
       <div className="flex items-start gap-4">
@@ -12,8 +12,8 @@ export default function TaskCard({ task, onToggle }) {
           onClick={() => onToggle(task.id, task.is_completed)}
           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition ${
             task.is_completed
-              ? 'bg-green-500 border-green-500'
-              : 'border-gray-300 hover:border-indigo-500'
+              ? 'bg-emerald-500 border-emerald-500'
+              : 'border-white/20 hover:border-[#F08A4B]'
           }`}
         >
           {task.is_completed && (
@@ -36,18 +36,18 @@ export default function TaskCard({ task, onToggle }) {
         <div className="flex-1">
           <p className={`font-semibold text-sm ${
             task.is_completed
-              ? 'line-through text-gray-400'
-              : 'text-gray-800'
+              ? 'line-through text-[#8A857C]'
+              : 'text-[#F2EDE6]'
           }`}>
             {task.title}
           </p>
-          <p className="text-xs text-gray-400 mt-1">{task.description}</p>
+          <p className="text-xs text-[#8A857C] mt-1">{task.description}</p>
           {task.resource_url && (
             <a
               href={task.resource_url}
               target="_blank"
               rel="noreferrer"
-              className="text-indigo-500 text-xs mt-2 inline-block hover:underline"
+              className="text-[#7C8CFF] text-xs mt-2 inline-block hover:underline"
             >
               📚 Open Resource →
             </a>

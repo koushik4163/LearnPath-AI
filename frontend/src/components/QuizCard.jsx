@@ -1,18 +1,18 @@
 export default function QuizCard({ question, options, correct, selected, onSelect, explanation }) {
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-6">{question}</h2>
+      <h2 className="text-lg font-semibold text-[#F2EDE6] mb-6">{question}</h2>
 
       <div className="space-y-3 mb-6">
         {options.map((opt, idx) => {
-          let style = 'border-gray-200 text-gray-700 hover:border-indigo-400';
+          let style = 'border-white/10 text-[#F2EDE6] hover:border-[#7C8CFF]';
           if (selected !== null) {
             if (idx === correct)
-              style = 'border-green-500 bg-green-50 text-green-700';
+              style = 'border-emerald-400/60 bg-emerald-500/10 text-emerald-200';
             else if (idx === selected && selected !== correct)
-              style = 'border-red-400 bg-red-50 text-red-600';
+              style = 'border-rose-400/60 bg-rose-500/10 text-rose-200';
             else
-              style = 'border-gray-200 text-gray-400';
+              style = 'border-white/5 text-[#8A857C]';
           }
           return (
             <button
@@ -28,7 +28,7 @@ export default function QuizCard({ question, options, correct, selected, onSelec
       </div>
 
       {selected !== null && explanation && (
-        <div className="bg-indigo-50 rounded-lg p-3 text-sm text-indigo-700 mb-4">
+        <div className="bg-[#232323] rounded-lg p-3 text-sm text-[#7C8CFF] mb-4">
           💡 {explanation}
         </div>
       )}

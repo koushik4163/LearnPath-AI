@@ -46,24 +46,24 @@ export default function ChatAssistant() {
       {/* Floating Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition flex items-center justify-center text-2xl z-50"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-[#F08A4B] text-white rounded-full shadow-lg hover:bg-[#DE7C40] transition flex items-center justify-center text-2xl z-50"
       >
         {open ? '✕' : '🤖'}
       </button>
 
       {/* Chat Window */}
       {open && (
-        <div className="fixed bottom-24 right-6 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border z-50 flex flex-col overflow-hidden"
+        <div className="fixed bottom-24 right-6 w-80 md:w-96 bg-[#1B1B1B] rounded-2xl shadow-2xl border border-white/10 z-50 flex flex-col overflow-hidden"
           style={{ height: '480px' }}>
 
           {/* Header */}
-          <div className="bg-indigo-600 px-5 py-4 flex items-center gap-3">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-600 font-bold text-sm">
+          <div className="bg-[#232323] px-5 py-4 flex items-center gap-3 border-b border-white/10">
+            <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-[#F08A4B] font-bold text-sm">
               AI
             </div>
             <div>
               <p className="text-white font-semibold text-sm">LearnPath Tutor</p>
-              <p className="text-indigo-200 text-xs">Ask me anything!</p>
+              <p className="text-[#B9B1A7] text-xs">Ask me anything!</p>
             </div>
           </div>
 
@@ -73,8 +73,8 @@ export default function ChatAssistant() {
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                   msg.role === 'user'
-                    ? 'bg-indigo-600 text-white rounded-tr-sm'
-                    : 'bg-gray-100 text-gray-800 rounded-tl-sm'
+                    ? 'bg-[#7C8CFF] text-white rounded-tr-sm'
+                    : 'bg-white/10 text-[#F2EDE6] rounded-tl-sm'
                 }`}>
                   {msg.text}
                 </div>
@@ -82,11 +82,11 @@ export default function ChatAssistant() {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 px-4 py-2.5 rounded-2xl rounded-tl-sm">
+                <div className="bg-white/10 px-4 py-2.5 rounded-2xl rounded-tl-sm">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="w-2 h-2 bg-[#8A857C] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-2 h-2 bg-[#8A857C] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-2 h-2 bg-[#8A857C] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               </div>
@@ -95,19 +95,19 @@ export default function ChatAssistant() {
           </div>
 
           {/* Input */}
-          <div className="border-t px-4 py-3 flex gap-2">
+          <div className="border-t border-white/10 px-4 py-3 flex gap-2">
             <input
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Ask your tutor..."
-              className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 bg-[#111111] border border-white/10 rounded-xl px-3 py-2 text-sm text-[#F2EDE6] placeholder:text-[#8A857C] focus:outline-none focus:ring-2 focus:ring-[#7C8CFF]"
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || loading}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition disabled:opacity-40"
+              className="bg-[#F08A4B] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#DE7C40] transition disabled:opacity-40"
             >
               Send
             </button>
