@@ -1,4 +1,5 @@
 import Sidebar from './Sidebar';
+import ChatAssistant from './ChatAssistant';
 
 export default function AppLayout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function AppLayout({ children }) {
           </main>
         </div>
       </div>
+      <ChatAssistant />
     </div>
   );
 }

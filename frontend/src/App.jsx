@@ -14,7 +14,6 @@ import Progress from './pages/Progress';
 import Profile from './pages/Profile';
 import QuizHistory from './pages/QuizHistory';
 import Certificate from './pages/Certificate';
-import ChatAssistant from './components/ChatAssistant';
 
 export default function App() {
   const withLayout = (page) => (
@@ -43,7 +42,6 @@ export default function App() {
           <Route path="/quiz-history" element={withLayout(<QuizHistory />)} />
           <Route path="/certificate" element={withLayout(<Certificate />)} />
         </Routes>
-        <ChatAssistant />
       </BrowserRouter>
     </AuthProvider>
   );
