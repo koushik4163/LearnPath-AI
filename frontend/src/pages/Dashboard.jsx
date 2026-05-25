@@ -31,7 +31,10 @@ export default function Dashboard() {
   const progressPercent = roadmap
     ? Math.round((currentWeek / totalWeeks) * 100)
     : 0;
-  const ringRadius = 42;
+  const ringSize = 140;
+  const ringCenter = ringSize / 2;
+  const ringRadius = 38;
+  const ringStroke = 12;
   const ringCircumference = 2 * Math.PI * ringRadius;
   const stats = [
     {
@@ -170,42 +173,46 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center gap-6">
               <div className="relative">
-                <svg width="150" height="150" viewBox="0 0 150 150">
+                <svg
+                  width={ringSize}
+                  height={ringSize}
+                  viewBox={`0 0 ${ringSize} ${ringSize}`}
+                >
                   <circle
-                    cx="75"
-                    cy="75"
+                    cx={ringCenter}
+                    cy={ringCenter}
                     r={ringRadius}
                     stroke="rgba(255, 255, 255, 0.08)"
-                    strokeWidth="15"
+                    strokeWidth={ringStroke}
                     fill="none"
                   />
                   <circle
-                    cx="75"
-                    cy="75"
+                    cx={ringCenter}
+                    cy={ringCenter}
                     r={ringRadius}
                     stroke="#F08A4B"
-                    strokeWidth="15"
+                    strokeWidth={ringStroke}
                     fill="none"
                     strokeDasharray={ringCircumference}
                     strokeDashoffset={ringCircumference - (progressPercent / 100) * ringCircumference}
                     strokeLinecap="round"
-                    transform="rotate(-90 75 75)"
+                    transform={`rotate(-90 ${ringCenter} ${ringCenter})`}
                   />
                   <text
-                    x="75"
-                    y="82"
+                    x={ringCenter}
+                    y={ringCenter + 4}
                     textAnchor="middle"
-                    fontSize="24"
+                    fontSize="22"
                     fill="#F2EDE6"
                     fontWeight="700"
                   >
                     {progressPercent}%
                   </text>
                   <text
-                    x="75"
-                    y="102"
+                    x={ringCenter}
+                    y={ringCenter + 20}
                     textAnchor="middle"
-                    fontSize="11"
+                    fontSize="10"
                     fill="#8A857C"
                   >
                     Completed
