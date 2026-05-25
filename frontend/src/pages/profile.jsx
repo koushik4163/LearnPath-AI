@@ -6,7 +6,7 @@ import { auth } from '../firebase';
 import { supabase } from '../supabase';
 
 export default function Profile() {
-	const { user, logout } = useAuth();
+	const { user, logout, updateUser } = useAuth();
 	const navigate = useNavigate();
 	const [name, setName] = useState(user?.name || '');
 	const [newPassword, setNewPassword] = useState('');
@@ -30,7 +30,14 @@ export default function Profile() {
 
 		try {
 			await updateProfile(auth.currentUser, { displayName: name });
-			await supabase.from('users').update({ name }).eq('id', user.id);
+			const { error: updateError } = await supabase
+				.from('users')
+				.update({ name })
+				.eq('id', user.id)
+				.select()
+				.single();
+			if (updateError) throw updateError;
+			updateUser({ name });
 			setMsg('Name updated successfully!');
 		} catch (err) {
 			setError('Failed to update name');

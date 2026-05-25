@@ -2,35 +2,57 @@ import { useNavigate } from 'react-router-dom';
 
 const FEATURES = [
   {
+    icon: '🧭',
+    title: 'Skill Diagnostic',
+    desc: 'Quick assessment to place you at the right starting level.',
+  },
+  {
     icon: '🎯',
-    title: 'AI-Powered Roadmaps',
-    desc: 'Tell us your goal and get a personalized week-by-week learning plan built by AI.',
+    title: 'Adaptive Roadmaps',
+    desc: 'Plans adjust based on your quiz results and task completion.',
   },
   {
     icon: '📋',
     title: 'Daily Tasks',
-    desc: 'Every day you get specific tasks to complete. No guessing what to study next.',
+    desc: 'Clear, bite-sized tasks so you always know what to do next.',
   },
   {
     icon: '🧠',
-    title: 'Daily Quizzes',
-    desc: 'Test your knowledge with AI-generated quizzes based on exactly what you learned.',
+    title: 'Smart Quizzes',
+    desc: 'Short checks that reinforce what you just learned.',
   },
   {
-    icon: '🔥',
-    title: 'Streak Tracking',
-    desc: 'Build learning habits with streak tracking and activity calendar.',
+    icon: '🧩',
+    title: 'Project Milestones',
+    desc: 'Build portfolio-ready projects at key checkpoints.',
   },
   {
-    icon: '📊',
-    title: 'Progress Charts',
-    desc: 'Visualize your growth with skill radar charts and quiz score history.',
+    icon: '💬',
+    title: 'AI Coach',
+    desc: 'Get instant feedback, hints, and next-step guidance.',
   },
   {
-    icon: '🔓',
-    title: 'Weekly Unlocks',
-    desc: 'Complete a week to unlock the next one. Stay motivated and on track.',
+    icon: '📈',
+    title: 'Progress Insights',
+    desc: 'Spot strengths, gaps, and readiness with visual reports.',
   },
+  {
+    icon: '🏅',
+    title: 'Certificates',
+    desc: 'Earn completion certificates you can share.',
+  },
+  {
+    icon: '🔖',
+    title: 'Curated Resources',
+    desc: 'Recommended readings and tutorials for each skill.',
+  },
+];
+
+const HERO_HIGHLIGHTS = [
+  { label: 'Roadmap', desc: 'Week-by-week plan tailored to your goal.' },
+  { label: 'Daily Plan', desc: 'Small tasks that build momentum.' },
+  { label: 'Skill Checks', desc: 'Short quizzes to lock in learning.' },
+  { label: 'Progress', desc: 'Clear visuals for wins and gaps.' },
 ];
 
 const STEPS = [
@@ -56,20 +78,6 @@ export default function Landing() {
             <p className="text-xs text-[#B9B1A7]">Personalized learning, daily</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/login')}
-            className="text-sm text-[#B9B1A7] hover:text-white font-medium"
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => navigate('/register')}
-            className="bg-[#F08A4B] text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#DE7C40] transition"
-          >
-            Get Started
-          </button>
-        </div>
       </nav>
 
       <section className="max-w-6xl mx-auto px-6 pt-10 pb-20 relative z-10">
@@ -89,72 +97,51 @@ export default function Landing() {
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <button
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/login')}
                 className="bg-[#F08A4B] text-white px-7 py-3.5 rounded-2xl font-semibold text-base shadow-lg shadow-[#F08A4B]/30 hover:bg-[#DE7C40] transition"
               >
-                Start Your Plan
+                Sign In
               </button>
               <button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/register')}
                 className="border border-white/15 text-white px-7 py-3.5 rounded-2xl font-semibold text-base hover:bg-white/10 transition"
               >
-                I Already Have an Account
+                Create Free Account
               </button>
             </div>
-            <p className="text-xs text-[#8A857C] mt-4">No credit card. Learn at your pace.</p>
           </div>
 
           <div className="bg-[#1B1B1B]/90 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-[#8A857C]">This week</p>
-                <p className="text-lg font-semibold">UX Design Foundations</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-[#8A857C]">Your toolkit</p>
+                <p className="text-lg font-semibold">Everything you need to stay on track</p>
               </div>
-              <span className="text-sm bg-white/10 px-3 py-1 rounded-full text-[#B9B1A7]">Week 1</span>
+              <span className="text-sm bg-white/10 px-3 py-1 rounded-full text-[#B9B1A7]">Personalized</span>
             </div>
             <div className="space-y-4">
-              {[
-                { label: 'Day 1', title: 'Design thinking basics', time: '45 min' },
-                { label: 'Day 2', title: 'User interviews & notes', time: '60 min' },
-                { label: 'Day 3', title: 'Wireframe your first flow', time: '50 min' },
-              ].map((item) => (
+              {HERO_HIGHLIGHTS.map((item) => (
                 <div key={item.label} className="flex items-center justify-between bg-[#232323] rounded-2xl px-4 py-3">
                   <div>
                     <p className="text-xs text-[#8A857C]">{item.label}</p>
-                    <p className="font-medium text-[#F2EDE6]">{item.title}</p>
+                    <p className="font-medium text-[#F2EDE6]">{item.desc}</p>
                   </div>
-                  <span className="text-xs bg-white/10 px-3 py-1 rounded-full text-[#B9B1A7]">{item.time}</span>
+                  <span className="text-xs bg-white/10 px-3 py-1 rounded-full text-[#B9B1A7]">Included</span>
                 </div>
               ))}
             </div>
             <div className="mt-5 border-t border-white/10 pt-4 flex items-center justify-between">
-              <p className="text-sm text-[#B9B1A7]">Daily quiz + streak tracking</p>
-              <span className="text-lg">🔥</span>
+              <p className="text-sm text-[#B9B1A7]">Track streaks and milestones automatically</p>
+              <span className="text-lg">✅</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-6 pb-16 relative z-10">
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { value: '10+', label: 'Career paths supported' },
-            { value: '5 min', label: 'Daily planning time' },
-            { value: '100%', label: 'Focus on real skills' },
-          ].map((s) => (
-            <div key={s.label} className="bg-[#1B1B1B]/80 border border-white/10 rounded-2xl p-5">
-              <p className="text-3xl font-semibold">{s.value}</p>
-              <p className="text-sm text-[#B9B1A7] mt-1">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-6 py-20 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+      <section className="max-w-6xl mx-auto px-6 pt-8 pb-20 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[#8A857C]">What you get</p>
-            <h2 className="text-4xl font-['Fraunces'] mt-3">The most practical learning stack.</h2>
+            <h2 className="text-4xl font-['Fraunces'] mt-1">The most practical learning stack.</h2>
           </div>
           <p className="text-[#B9B1A7] max-w-md">
             Designed for busy learners who want clarity, momentum, and proof of progress.
@@ -171,11 +158,10 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="bg-[#111111] py-20 relative z-10">
+      <section className="bg-[#111111] pt-8 pb-20 relative z-10">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#8A857C]">How it works</p>
-            <h2 className="text-4xl font-['Fraunces'] mt-4">A calm, repeatable routine.</h2>
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-['Fraunces'] mt-1">A calm, repeatable routine.</h2>
           </div>
           <div className="grid md:grid-cols-4 gap-6">
             {STEPS.map((step) => (
@@ -188,21 +174,6 @@ export default function Landing() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center relative z-10">
-        <div className="bg-[#1B1B1B] text-white rounded-3xl px-8 py-14 shadow-xl shadow-black/40 border border-white/10">
-          <h2 className="text-4xl font-['Fraunces'] mb-4">Ready to design your next chapter?</h2>
-          <p className="text-[#B9B1A7] mb-8">
-            Join learners who want progress without overwhelm. Start free and stay consistent.
-          </p>
-          <button
-            onClick={() => navigate('/register')}
-            className="bg-[#F08A4B] text-white px-10 py-4 rounded-2xl font-semibold hover:bg-[#DE7C40] transition"
-          >
-            Create Free Account
-          </button>
         </div>
       </section>
 

@@ -34,15 +34,6 @@ export default function Login() {
           <p className="text-[#B9B1A7] mt-2">Welcome back!</p>
         </div>
 
-        <div className="mb-6 text-center">
-          <Link
-            to="/"
-            className="text-xs text-[#8A857C] hover:text-[#F2EDE6] transition"
-          >
-            ← Back to Landing
-          </Link>
-        </div>
-
         {error && (
           <div className="bg-rose-500/10 text-rose-200 text-sm
             rounded-lg px-4 py-3 mb-4 border border-rose-400/40">
