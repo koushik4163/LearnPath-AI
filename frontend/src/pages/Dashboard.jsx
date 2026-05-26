@@ -8,15 +8,18 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [roadmap, setRoadmap] = useState(null);
   const [progress, setProgress] = useState(null);
+  const [todayTasks, setTodayTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([
       api.get('/roadmap/my').catch(() => null),
       api.get('/progress/me').catch(() => null),
-    ]).then(([r, p]) => {
+      api.get('/tasks/today').catch(() => null),
+    ]).then(([r, p, t]) => {
       setRoadmap(r?.data || null);
       setProgress(p?.data || null);
+      setTodayTasks(t?.data || []);
     }).finally(() => setLoading(false));
   }, []);
 
@@ -58,12 +61,14 @@ export default function Dashboard() {
       icon: '🏆',
     },
   ];
+  const tasksTotal = todayTasks.length;
+  const tasksDone = todayTasks.filter(task => task.is_completed).length;
   const modules = [
     {
       title: "Daily Tasks",
-      desc: "Checklist and focus",
+      desc: tasksTotal ? `${tasksDone} of ${tasksTotal} done` : "No tasks scheduled",
       type: "Routine",
-      status: "Ongoing",
+      status: tasksTotal ? "Active" : "Empty",
       path: "/tasks",
     },
     {
@@ -77,7 +82,7 @@ export default function Dashboard() {
       title: "Quick Quiz",
       desc: "Recall practice",
       type: "Assessment",
-      status: "Available",
+      status: progress?.quiz_history?.length ? "Ready" : "New",
       path: "/quiz",
     },
     {
@@ -88,17 +93,75 @@ export default function Dashboard() {
       path: "/progress",
     },
   ];
-  const todayPlan = [
-    { time: "08:00", title: "Daily tasks", desc: "Complete your checklist", icon: "📋", path: "/tasks" },
-    { time: "10:30", title: "Quick quiz", desc: "5 questions to reinforce", icon: "🧠", path: "/quiz" },
-    { time: "14:00", title: "Progress review", desc: "Track streaks and scores", icon: "📊", path: "/progress" },
-  ];
+  const weekPlan = roadmap?.generated_plan?.weeks?.[currentWeek - 1]?.days || [];
+  const currentDayNumber = todayTasks[0]?.day_number || 1;
+  const focusItems = [];
+  const todayPlan = [];
+
+  if (todayTasks.length) {
+    const task = todayTasks[0];
+    todayPlan.push({
+      time: `Day ${task.day_number || currentDayNumber}`,
+      title: task.title || "Today",
+      desc: task.description || "Open today’s tasks",
+      icon: task.is_completed ? "✅" : "📌",
+      path: "/tasks",
+    });
+  } else if (weekPlan.length) {
+    const day = weekPlan.find(item => item.day === currentDayNumber) || weekPlan[0];
+    if (day) {
+      todayPlan.push({
+        time: `Day ${day.day}`,
+        title: day.topic || "Today",
+        desc: day.description || "Open today’s tasks",
+        icon: "📌",
+        path: "/tasks",
+      });
+    }
+  }
+
+  for (let offset = 1; offset <= 2; offset += 1) {
+    const nextDay = weekPlan.find(item => item.day === currentDayNumber + offset);
+    if (nextDay) {
+      focusItems.push({
+        time: `Day ${nextDay.day}`,
+        title: nextDay.topic || `Day ${nextDay.day}`,
+        desc: nextDay.description || "Upcoming focus",
+        icon: "⏭️",
+        path: "/tasks",
+      });
+    }
+  }
+
+  todayPlan.push(...focusItems);
   const todayLabel = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "short",
     day: "numeric",
   });
   const initials = (user?.name || user?.email || "U")[0].toUpperCase();
+
+  const quizHistory = progress?.quiz_history || [];
+  const recentScores = quizHistory.slice(-8).map(item => item.percent).filter(Boolean);
+  const chartWidth = 560;
+  const chartHeight = 180;
+  const chartPadding = 20;
+  const baseY = chartHeight - chartPadding;
+  const buildLinePath = (values) => {
+    if (values.length === 0) {
+      return `M${chartPadding} ${baseY} L${chartWidth - chartPadding} ${baseY}`;
+    }
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = Math.max(max - min, 1);
+    return values.map((value, index) => {
+      const x = chartPadding + (index * (chartWidth - chartPadding * 2)) / Math.max(values.length - 1, 1);
+      const y = chartHeight - chartPadding - ((value - min) / range) * (chartHeight - chartPadding * 2);
+      return `${index === 0 ? 'M' : 'L'}${x} ${y}`;
+    }).join(' ');
+  };
+  const linePath = buildLinePath(recentScores);
+  const areaPath = `${linePath} L${chartWidth - chartPadding} ${baseY} L${chartPadding} ${baseY} Z`;
 
   return (
     <div className="w-full">
@@ -239,12 +302,12 @@ export default function Dashboard() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-[#8A857C]">Momentum</p>
-                  <h3 className="text-lg font-semibold text-[#F2EDE6] mt-2">Learning Trend</h3>
+                  <h3 className="text-lg font-semibold text-[#F2EDE6] mt-2">Quiz Trend</h3>
                 </div>
-                <span className="text-xs text-[#8A857C]">Last 8 weeks</span>
+                <span className="text-xs text-[#8A857C]">Last 8 quizzes</span>
               </div>
               <div className="bg-[#141414] border border-white/5 rounded-2xl p-5">
-                <svg viewBox="0 0 560 180" className="w-full h-48">
+                <svg viewBox={`${0} ${0} ${chartWidth} ${chartHeight}`} className="w-full h-48">
                   <defs>
                     <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#F08A4B" stopOpacity="0.35" />
@@ -252,17 +315,17 @@ export default function Dashboard() {
                     </linearGradient>
                   </defs>
                   <path
-                    d="M20 150 C80 120, 120 120, 170 110 C220 100, 250 70, 300 80 C350 90, 380 60, 430 55 C480 50, 520 70, 540 45"
+                    d={linePath}
                     fill="none"
                     stroke="#F08A4B"
                     strokeWidth="3"
                     strokeLinecap="round"
                   />
-                  <path
-                    d="M20 150 C80 120, 120 120, 170 110 C220 100, 250 70, 300 80 C350 90, 380 60, 430 55 C480 50, 520 70, 540 45 L540 180 L20 180 Z"
-                    fill="url(#lineFill)"
-                  />
+                  <path d={areaPath} fill="url(#lineFill)" />
                 </svg>
+                {!recentScores.length && (
+                  <p className="text-xs text-[#8A857C] mt-3">No quiz data yet. Take a quiz to see your trend.</p>
+                )}
               </div>
             </div>
           ) : (
@@ -292,9 +355,9 @@ export default function Dashboard() {
               <span className="text-xs text-[#8A857C]">Focus list</span>
             </div>
             <div className="space-y-3">
-              {todayPlan.map((item) => (
+              {todayPlan.length ? todayPlan.map((item) => (
                 <button
-                  key={item.title}
+                  key={`${item.title}-${item.time}`}
                   onClick={() => navigate(item.path)}
                   className="w-full flex items-center gap-3 panel-outline px-4 py-3 text-left hover:bg-white/5 transition"
                 >
@@ -307,7 +370,11 @@ export default function Dashboard() {
                     <p className="text-xs text-[#8A857C]">{item.desc}</p>
                   </div>
                 </button>
-              ))}
+              )) : (
+                <div className="panel-outline px-4 py-4 text-sm text-[#B9B1A7]">
+                  No tasks scheduled for today yet.
+                </div>
+              )}
             </div>
             <button
               onClick={() => navigate('/tasks')}

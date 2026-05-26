@@ -5,11 +5,15 @@ import api from '../api/axios';
 export default function DailyTask() {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [currentWeek, setCurrentWeek] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/tasks/today')
-      .then(res => setTasks(res.data))
+    api.get('/tasks/week/current')
+      .then(res => {
+        setTasks(res.data || []);
+        setCurrentWeek(res.data?.[0]?.week_number ?? null);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -43,14 +47,14 @@ export default function DailyTask() {
             ← Back
           </button>
           <h1 className="text-lg font-bold text-[#F08A4B]">
-            📋 Today's Tasks
+            📋 Week {currentWeek || '—'} Tasks
           </h1>
         </div>
         {/* Progress Bar */}
         <div className="panel p-5 mb-6 shadow-sm">
           <div className="flex justify-between items-center mb-2">
             <p className="text-sm font-medium text-[#F2EDE6]">
-              Daily Progress
+              Week Progress
             </p>
             <p className="text-sm font-bold text-[#F08A4B]">
               {completed}/{tasks.length} done
@@ -69,7 +73,7 @@ export default function DailyTask() {
         {tasks.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-5xl mb-4">🎉</p>
-            <p className="text-[#B9B1A7]">No tasks for today!</p>
+            <p className="text-[#B9B1A7]">No tasks for this week yet!</p>
             <button onClick={() => navigate('/goal-setup')}
               className="mt-4 text-[#7C8CFF] text-sm hover:underline">
               Generate a roadmap first →
@@ -103,6 +107,9 @@ export default function DailyTask() {
                     )}
                   </button>
                   <div className="flex-1">
+                    <p className="text-xs uppercase tracking-[0.2em] text-[#8A857C]">
+                      Day {task.day_number || 1}
+                    </p>
                     <p className={`font-semibold text-sm ${
                       task.is_completed
                         ? 'line-through text-[#8A857C]'

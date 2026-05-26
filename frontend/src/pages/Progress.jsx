@@ -5,6 +5,7 @@ import {
   ResponsiveContainer, LineChart, Line, XAxis,
   YAxis, Tooltip, CartesianGrid
 } from 'recharts';
+import StreakTracker from '../components/StreakTracker';
 import api from '../api/axios';
 
 export default function Progress() {
@@ -34,7 +35,12 @@ export default function Progress() {
     { skill: 'Viz', score: 55 },
   ];
 
-  const quizHistory = data?.quiz_history || [];
+  const quizHistory = (data?.quiz_history || []).map((item) => ({
+    percent: item.percent ?? 0,
+    date: item.taken_at
+      ? new Date(item.taken_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      : '',
+  }));
 
   return (
     <div className="w-full">
@@ -117,33 +123,7 @@ export default function Progress() {
           </div>
         )}
 
-        {/* Streak Calendar placeholder */}
-        <div className="panel p-6 shadow-sm">
-          <h3 className="font-semibold text-[#F2EDE6] mb-4">
-            📅 Activity This Month
-          </h3>
-          <div className="grid grid-cols-7 gap-1.5">
-            {Array.from({ length: 30 }, (_, i) => {
-              const active = data?.active_days?.includes(i + 1);
-              return (
-                <div key={i}
-                  className={`w-full aspect-square rounded-md ${
-                  active
-                    ? 'bg-[#F08A4B]'
-                    : 'bg-white/10'
-                }`}
-                  title={`Day ${i + 1}`}
-                />
-              );
-            })}
-          </div>
-          <div className="flex items-center gap-2 mt-3 text-xs text-[#8A857C]">
-            <div className="w-3 h-3 rounded-sm bg-white/10" />
-            <span>No activity</span>
-            <div className="w-3 h-3 rounded-sm bg-[#F08A4B] ml-2" />
-            <span>Active</span>
-          </div>
-        </div>
+        <StreakTracker activeDays={data?.active_days || []} />
       </div>
     </div>
   );
