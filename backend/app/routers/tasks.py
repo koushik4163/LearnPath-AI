@@ -24,6 +24,34 @@ async def get_today_tasks(
     return result.data or []
 
 
+@router.get("/week/current")
+async def get_current_week_tasks(
+    token_data: dict = Depends(verify_firebase_token),
+):
+    uid = token_data["uid"]
+
+    roadmap_result = supabase.table("roadmaps") \
+        .select("current_week") \
+        .eq("user_id", uid) \
+        .order("created_at", desc=True) \
+        .limit(1) \
+        .execute()
+
+    if not roadmap_result.data:
+        raise HTTPException(status_code=404, detail="No roadmap found")
+
+    current_week = roadmap_result.data[0].get("current_week", 1)
+
+    result = supabase.table("tasks") \
+        .select("*") \
+        .eq("user_id", uid) \
+        .eq("week_number", current_week) \
+        .order("day_number") \
+        .execute()
+
+    return result.data or []
+
+
 @router.patch("/{task_id}/complete")
 async def toggle_task(
     task_id: str,
