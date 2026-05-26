@@ -10,7 +10,6 @@ const PRIMARY_NAV = [
 const SECONDARY_NAV = [
   { path: '/quiz', icon: '🧠', label: 'Quiz' },
   { path: '/progress', icon: '📊', label: 'Progress' },
-  { path: '/certificate', icon: '🎓', label: 'Certificate' },
 ];
 
 export default function Sidebar() {

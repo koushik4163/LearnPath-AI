@@ -13,7 +13,6 @@ import Quiz from './pages/Quiz';
 import Progress from './pages/Progress';
 import Profile from './pages/Profile';
 import QuizHistory from './pages/QuizHistory';
-import Certificate from './pages/Certificate';
 
 export default function App() {
   const withLayout = (page) => (
@@ -38,9 +37,9 @@ export default function App() {
           <Route path="/tasks" element={withLayout(<DailyTask />)} />
           <Route path="/quiz" element={withLayout(<Quiz />)} />
           <Route path="/progress" element={withLayout(<Progress />)} />
+          <Route path="/analytics" element={withLayout(<Progress />)} />
           <Route path="/profile" element={withLayout(<Profile />)} />
           <Route path="/quiz-history" element={withLayout(<QuizHistory />)} />
-          <Route path="/certificate" element={withLayout(<Certificate />)} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
