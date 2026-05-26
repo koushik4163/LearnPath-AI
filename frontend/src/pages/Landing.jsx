@@ -37,11 +37,6 @@ const FEATURES = [
     desc: 'Spot strengths, gaps, and readiness with visual reports.',
   },
   {
-    icon: '🏅',
-    title: 'Certificates',
-    desc: 'Earn completion certificates you can share.',
-  },
-  {
     icon: '🔖',
     title: 'Curated Resources',
     desc: 'Recommended readings and tutorials for each skill.',
