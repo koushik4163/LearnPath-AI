@@ -14,14 +14,11 @@ def clean_json(text: str) -> str:
     """Aggressively strip everything except the JSON."""
     text = text.strip()
 
-    # Remove markdown fences
     if "```" in text:
-        # Extract content between fences
         match = re.search(r'```(?:json)?\s*([\s\S]*?)```', text)
         if match:
             text = match.group(1).strip()
 
-    # Find first { or [ and last } or ]
     first_brace = -1
     last_brace = -1
 
@@ -41,15 +38,29 @@ def clean_json(text: str) -> str:
     return text.strip()
 
 
-def generate_roadmap(goal: str, current_skills: list, duration_weeks: int) -> dict:
+def generate_roadmap(
+    goal: str,
+    current_skills: list,
+    duration_weeks: int,
+    rag_context: str = "",
+) -> dict:
     """Call Groq LLaMA to generate a structured learning roadmap."""
+
+    context_block = ""
+    if rag_context:
+        context_block = f"""
+RELEVANT LEARNING RESOURCES AND CONTENT (use these to inform your roadmap):
+{rag_context}
+
+Use the above content to suggest real resources and ground your topics.
+"""
 
     prompt = f"""You are an expert learning coach. Create a {duration_weeks}-week learning roadmap.
 
 Goal: {goal}
 Current skills: {', '.join(current_skills)}
 Duration: {duration_weeks} weeks
-
+{context_block}
 You MUST return ONLY a raw JSON object. No markdown. No explanation. No code fences. Just the JSON.
 
 Exact structure required:
@@ -95,13 +106,18 @@ Requirements:
     )
 
     raw = response.choices[0].message.content
-    print("RAW ROADMAP RESPONSE:", raw[:200])  # debug log
+    print("RAW ROADMAP RESPONSE:", raw[:200])
 
     text = clean_json(raw)
     return json.loads(text)
 
 
-def generate_quiz(goal: str, current_skills: list, recent_topics: list) -> list:
+def generate_quiz(
+    goal: str,
+    current_skills: list,
+    recent_topics: list,
+    rag_context: str = "",
+) -> list:
     """Call Groq LLaMA to generate 5 quiz questions."""
 
     topics_str = (
@@ -109,11 +125,20 @@ def generate_quiz(goal: str, current_skills: list, recent_topics: list) -> list:
         else ', '.join(current_skills)
     )
 
+    context_block = ""
+    if rag_context:
+        context_block = f"""
+LEARNING CONTENT TO BASE QUESTIONS ON:
+{rag_context}
+
+Base your questions on the above content when possible.
+"""
+
     prompt = f"""Create exactly 5 multiple-choice quiz questions.
 
 Goal: {goal}
 Topics: {topics_str}
-
+{context_block}
 You MUST return ONLY a raw JSON array. No markdown. No explanation. No code fences. Just JSON.
 
 Exact structure:
@@ -149,7 +174,7 @@ Requirements:
     )
 
     raw = response.choices[0].message.content
-    print("RAW QUIZ RESPONSE:", raw[:200])  # debug log
+    print("RAW QUIZ RESPONSE:", raw[:200])
 
     text = clean_json(raw)
     return json.loads(text)
